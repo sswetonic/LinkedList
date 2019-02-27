@@ -5,7 +5,7 @@ public class LinkedList<E> {
         first = null;
     }
 
-    private LinkedList(String name, Node<E> first) {
+    public LinkedList(Node<E> first) {
         this.first = first;
     }
 
@@ -63,5 +63,19 @@ public class LinkedList<E> {
             current = current.next;
         }
         return false;
+    }
+
+    public String toString() {
+
+        Node current = first;
+        String result = "[";
+        while (current != null) {
+            result += current.data + "]";
+            if (current.next != null) {
+                result += " -> [";
+            }
+            current = current.next;
+        }
+        return result;
     }
 }
