@@ -1,11 +1,7 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-public class LinkedListDriver<E> {
+public class LinkedListDriver {
 
     public static void main(String[] args) {
-        Node<Integer> testNode = new Node<>(5);
         LinkedList<Integer> test = new LinkedList<>();
         test.add(6);
         test.add(7);
@@ -34,10 +30,8 @@ public class LinkedListDriver<E> {
         while (current1.next != null && current2.next != null) {
             if (current1.data <= current2.data) {
                 newList.add(current1.data);
-                System.out.println("added " + current1.data);
                 current1 = current1.next;
             } else {
-                System.out.println("added " + current2.data);
                 newList.add(current2.data);
                 current2 = current2.next;
             }
