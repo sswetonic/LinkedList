@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class LinkedList<E> {
     public Node<E> first;
 
@@ -9,11 +11,11 @@ public class LinkedList<E> {
         this.first = first;
     }
 
-    public void add(E value) {
+    void add(E value) {
         if (first == null) {
             first = new Node<E>(value);
         } else {
-            Node current = first;
+            Node<E> current = first;
             while (current.next != null) {
                 current = current.next;
             }
@@ -21,7 +23,10 @@ public class LinkedList<E> {
         }
     }
 
-    public void add(int index, E value) {
+    void add(int index, E value) {
+        if (this.size()-1 < index || index < 0) {
+            throw new IndexOutOfBoundsException();
+        }
         if (index == 0) {
             first = new Node<E>(value, first);
         } else {
@@ -33,15 +38,70 @@ public class LinkedList<E> {
         }
     }
 
-    public void remove(int index) {
+    void remove(int index) {
         if (index == 0) {
             first = first.next;
         } else {
-            Node current = first;
+            Node<E> current = first;
             for (int i = 0; i < index - 1; i++) {
                 current = current.next;
             }
             current.next = current.next.next;
+        }
+    }
+
+    int size() {
+        int size = 1;
+        if (first == null) {
+            return 0;
+        }
+        Node current = first;
+        while (current.next != null) {
+            size++;
+            current = current.next;
+        }
+        return size;
+    }
+
+    boolean exists(Node<E> node) {
+        Node<E> current = first;
+        while (current.next != null) {
+            if (current.equals(node)) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+
+    Node<E> getParent(Node<E> node) {
+        if (!exists(node)) {
+            throw new NoSuchElementException();
+        }
+        if (first.next == null || first.equals(node)) {
+            return null;
+        }
+        Node<E> firstSpot = first;
+        Node<E> secondSpot = first.next;
+        while (secondSpot.next != null) {
+            if (firstSpot.next.equals(node)) {
+                return firstSpot;
+            }
+            firstSpot = firstSpot.next;
+            secondSpot = secondSpot.next;
+        }
+        return null;
+    }
+
+    void truncateList(E value) {
+        if (first != null) {
+            Node<E> current = first;
+            while (current.next != null) {
+                if (current.data == value) {
+                    this.getParent(current).next = null;
+                }
+                current = current.next;
+            }
         }
     }
 
@@ -54,20 +114,11 @@ public class LinkedList<E> {
         }
     }
 
-    public boolean exists(Node<E> node) {
-        Node<E> current = first;
-        while (current.next != null) {
-            if (current.equals(node)) {
-                return true;
-            }
-            current = current.next;
-        }
-        return false;
-    }
-
     public String toString() {
-
         Node current = first;
+        if (current == null) {
+            return "[]";
+        }
         String result = "[";
         while (current != null) {
             result += current.data + "]";
@@ -78,4 +129,5 @@ public class LinkedList<E> {
         }
         return result;
     }
+
 }
